@@ -1,0 +1,140 @@
+﻿@page "/withdrawItem"
+@using BikeManagementSystem.Data;
+
+
+<h3>withdrawal</h3>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>item name</th>
+            <th>quantity</th>
+            <th>taken by</th>
+            <th>date taken out</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var withdrawlItem in _withdrawlItems)
+        {
+            <tr>
+                <td>@withdrawlItem.ItemName</td>
+                <td>@withdrawlItem.Quantity.ToString()</td>
+                <td>@withdrawlItem.TakerName</td>
+                <td>
+                    <p class="small mb-0">
+                        @withdrawlItem.CreatedAt.ToString("MMM dd, yyyy h:mm tt")
+                    </p>
+                </td>
+                <td>
+                    <button class="btn btn-outline-secondary" @onclick="()=>OpenApproveItemDialog(withdrawlItem)" type=" button">
+                        <span class="oi oi-check" /> Approve
+                    </button>
+                 </td>
+
+
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+
+@if (_showApproveItemDialog)
+{
+    <ModalDialog Title="Approve Withdrawal" OnClose="@OnApproveItemDialogClose" OkLabel="Confirm">
+        <p>Are you sure you want to approve  this withdrawl?</p>
+        @if (!string.IsNullOrEmpty(_deleteUserErrorMessage))
+        {
+            <AlertMessage Type="danger" Message="@_deleteUserErrorMessage" />
+        }
+    </ModalDialog>
+}
+
+@code {
+    [CascadingParameter]
+
+    private GlobalState _globalState { get; set; }
+    private List<WithdrawItems> _withdrawlItems { get; set; }
+    private bool _showAddItemDialog { get; set; }
+    private bool _showApproveItemDialog { get; set; }
+    private string _addUserErrorMessage { get; set; }
+    private string _deleteUserErrorMessage { get; set; }
+    private User _deleteUser { get; set; }
+    private List<User> _users { get; set; }
+    private string _itemName { get; set; }
+    private int _quantity { get; set; }
+
+
+    private List<ApprovedItem> _approvedItems { get; set; }
+    private List<Inventory> _inventoryItems { get; set; }
+    private WithdrawItems _withdrawlModel { get; set; }
+    private Inventory _inventoryModel { get; set; }
+    private WithdrawItems _deleteInventoryItem { get; set; }
+
+
+
+
+    protected override void OnInitialized()
+    {
+        _withdrawlItems = WithdrawlService.GetAll();
+        _approvedItems = ApprovedItemService.GetAll();
+        _inventoryItems = InventoryService.GetAll();
+    }
+
+
+    private void OpenApproveItemDialog(WithdrawItems withdrawlItem)
+    {
+
+        _showApproveItemDialog = true;
+        _withdrawlModel = withdrawlItem;
+        Console.WriteLine("The dialog box should be shown here");
+    }
+
+
+    private void OnApproveItemDialogClose(bool isCancel)
+    {
+
+        if (isCancel)
+        {
+            _showApproveItemDialog = false;
+            _inventoryItems = InventoryService.CancelWithdrawItem(_withdrawlModel.ItemId,_withdrawlModel.ItemName, _withdrawlModel.Quantity);
+            _withdrawlItems = WithdrawlService.Delete(_withdrawlModel.Id);
+
+
+        }
+        else
+        {
+            try
+            {
+                _addUserErrorMessage = "";
+                Console.WriteLine("Finally reached here");
+
+                if (_withdrawlModel.ItemId == Guid.Empty)
+                {
+                    Console.WriteLine("Finally reached here1");
+                }
+                else
+                {
+                    Console.WriteLine(_withdrawlModel.ItemName);
+                    _approvedItems = ApprovedItemService.Create(_withdrawlModel.TakenBy, _withdrawlModel.ItemName, _withdrawlModel.ItemId,
+                        _withdrawlModel.Quantity, _withdrawlModel.TakerName, _globalState.CurrentUser.Id,
+                        _globalState.CurrentUser.Username, true);
+                    Console.WriteLine("Successfully Added to final Array3");
+      
+                }
+
+                
+                _showApproveItemDialog = false;
+            }
+            catch (Exception e)
+            {
+                _addUserErrorMessage = e.Message;
+            }
+        }
+
+    }
+
+}

@@ -1,0 +1,20 @@
+﻿
+@page "/"
+@using BikeManagementSystem.Data
+@inject NavigationManager NavManager
+@code {
+    [CascadingParameter]
+    public GlobalState _globalstate { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (_globalstate.CurrentUser == null)
+        {
+            NavManager.NavigateTo("/login");
+        }
+        else
+        {
+            NavManager.NavigateTo("/Items");
+        }
+    }
+}

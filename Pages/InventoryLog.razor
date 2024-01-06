@@ -1,0 +1,43 @@
+﻿@page "/inventory-log"
+
+<h3>Inventory Log</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>item name</th>
+            <th>Quantity</th>
+            <th>Taken  By</th>
+            <th>Approved By</th>
+            <th>Date Taken Out</th>
+        </tr>
+    </thead>
+
+    @foreach (var approvedItem in _approvedItems)
+    {
+        <tr>
+            <td>@approvedItem.ItemName</td>
+            <td>@approvedItem.Quantity.ToString()</td>
+            <td>@approvedItem.TakerName</td>
+            <td>@approvedItem.ApproverName</td>
+            <td>
+                <p class="small mb-0">
+                    @approvedItem.CreatedAt.ToString("MMM dd, yyyy")
+                </p>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@code {
+    [CascadingParameter]
+    private GlobalState _globalState { get; set; }
+    private List<ApprovedItem> _approvedItems { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _approvedItems = ApprovedItemService.GetAll();
+    }
+
+}

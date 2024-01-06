@@ -1,0 +1,118 @@
+﻿
+.form-login {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+.form-login .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-login .username {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-login .password {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+
+}
+
+body {
+    align-self:center;
+    background-image: linear-gradient(-225deg, #E3FDF5 0%, #528575 100%);
+    background-image: linear-gradient(to top, #a8edea 0%, #528575 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-family:  cursive;
+
+    opacity: .95;
+
+}
+
+form {
+    width: 450px;
+    min-height: 500px;
+    height: 100px;
+    border-radius: 5px;
+    margin: 2% auto;
+    box-shadow: 0 9px 50px hsla(20, 67%, 75%, 0.31);
+    padding: 2%;
+    background-image: linear-gradient(-225deg, #E3FDF5 50%, #FFE6FA 50%);
+}
+
+form .con {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    height: auto;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+     margin: auto;
+}
+
+
+.input-item {
+    background: #fff;
+    color: #333;
+    padding: 14.5px 0px 15px 9px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+
+
+#eye {
+    background: #fff;
+    color: #333;
+  
+    margin: 5.9px 0 0 0;
+    margin-left: -20px;
+    padding: 15px 9px 19px 0px;
+    border-radius: 0px 5px 5px 0px;
+  
+    float: right;
+    position: relative;
+    right: 1%;
+    top: -.2%;
+    z-index: 5;
+    
+    cursor: pointer;
+}
+
+button {
+    display: inline-block;
+    color: #252537;
+  
+    width: 280px;
+    height: 50px;
+  
+    padding: 0 20px;
+    background: #fff;
+    border-radius: 5px;
+    
+    outline: none;
+    border: none;
+  
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s linear;
+    
+    margin: 7% auto;
+    letter-spacing: 0.05em;
+}
+
+
+button:hover {
+    transform: translatey(3px);
+    box-shadow: initial;
+}
+
+button:hover {
+    animation: ani9 0.4s ease-in-out infinite alternate;
+}
+
+

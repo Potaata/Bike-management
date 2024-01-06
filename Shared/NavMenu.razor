@@ -1,0 +1,73 @@
+﻿<div class="nav-item px-3" style="background-image:linear-gradient(to right, pink, lightblue)"><h4 class="text-light" > Bike Management System </h4></div>
+
+<div class='@(_collapseNavMenu ? "collapse" : "")' @onclick="ToggleNavMenu">
+    <nav class="flex-column" style="background-image:linear-gradient(to right, pink, lightblue )">
+        <div class="nav-item px-3"><h5 class="text-light" style="font-family:'Baskerville Old Face'"><strong>Welcome!</strong></h5></div>
+       
+         <div class="nav-item px-3">
+            <NavLink class="nav-link" href="staffInventory" style=color:black>
+                <span class="oi oi-wrench" /> Items
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="inventory-log" style=color:black>
+                <span class="oi oi-list-rich" /> Inventory Log
+            </NavLink>
+        </div>
+@*
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="vgraph" style=color:black>
+                <span class="oi oi-list-rich" /> Graph
+            </NavLink>
+        </div>
+*@
+        @if (UserRole == Role.Admin)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="users" style=color:black>
+                    <span class="oi oi-person" /> Users
+                </NavLink>
+            </div>
+
+             <div class="nav-item px-3">
+                <NavLink class="nav-link" href="inventory" style=color:black>
+                    <span class="oi oi-list-rich" /> Inventory
+            </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="withdrawItem" style=color:black>
+                    <span class="oi oi-transfer" /> Withdrawal Items
+                </NavLink>
+            </div>
+        }
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="change-password" style=color:black>
+                <span class="oi oi-key" /> Change Password
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link text-danger" role="button" @onclick="LogoutHandler">
+                <span class="oi oi-account-logout" /> Logout
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    [Parameter]
+    public string Username { get; set; }
+    [Parameter]
+    public Role UserRole { get; set; }
+    [Parameter]
+    public EventCallback LogoutHandler { get; set; }
+
+    private bool _collapseNavMenu { get; set; } = true;
+
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+}
+
